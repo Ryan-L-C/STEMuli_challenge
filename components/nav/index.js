@@ -13,21 +13,6 @@ import Notifications from './notifications';
 // Stores the open/close state of the sidebar
 const SidebarStateContext = React.createContext();
 
-const LogoAndBurger = () => {
-    const isMenuOpen = useContext(SidebarStateContext);
-    const windowSize = useContext(WindowSizeContext);
-    return isMenuOpen ? (
-        <div className='flex flex-row pl-5 pt-10 relative'>
-            <img className='w-44' src='/imgs/logo_large.svg' alt='logo' />
-            { windowSize.width < 1024 && <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                <img src='/imgs/burger.svg' className='h-8 w-8 absolute right-0 top-1/2 lg:hidden' />
-            </button>}
-        </div>
-    ) : (
-        <button onClick={() => setIsMenuOpen(!isMenuOpen)}><img src='/imgs/burger.svg' className='h-8 w-8 m-8 ml-8 lg:hidden' /></button>
-    );
-};
-
 const Nav = ({ children }) => {
     const [menuState, setIsMenuOpen] = useState(true);
     const windowSize = useContext(WindowSizeContext);
@@ -49,7 +34,16 @@ const Nav = ({ children }) => {
                     'px-5 w-64': isMenuOpen,
                     'divide-y dividy-gray-300 w-24': !isMenuOpen,
                 })}>
-                    <LogoAndBurger />
+                    {isMenuOpen ? (
+                        <div className='flex flex-row pl-5 pt-10 relative'>
+                            <img className='w-44' src='/imgs/logo_large.svg' alt='logo' />
+                            { windowSize.width < 1024 && <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                                <img src='/imgs/burger.svg' className='h-8 w-8 absolute right-0 top-1/2 lg:hidden' />
+                            </button>}
+                        </div>
+                    ) : (
+                        <button onClick={() => setIsMenuOpen(!isMenuOpen)}><img src='/imgs/burger.svg' className='h-8 w-8 m-8 ml-8 lg:hidden' /></button>
+                    )}
                     {/* The main navigation stack */}
                     <div className='flex flex-col divide-y dividy-gray-300'>
                         <NavSection text={!isMenuOpen ? 'Admin' : 'Admin tools'} icon={isMenuOpen ? null : <img className='w-10 ml-3' src='/imgs/logo_small.svg' alt='logo' />}>
